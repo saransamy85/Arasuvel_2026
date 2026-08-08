@@ -21,23 +21,33 @@
             <ul class="navbar-nav mx-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#about">About</a>
+                    <a class="nav-link {{ Request::routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About-us</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul class="dropdown-menu border-0 shadow-lg py-2" aria-labelledby="servicesDropdown">
+                        <li><a class="dropdown-item py-2 px-3 text-dark-emphasis fw-medium" href="{{ route('pufSandwich') }}">Puf / Sandwich Roofing</a></li>
+                        <li><a class="dropdown-item py-2 px-3 text-dark-emphasis fw-medium" href="{{ route('metalRoofings') }}">Metal Roofings</a></li>
+                        <li><a class="dropdown-item py-2 px-3 text-dark-emphasis fw-medium" href="{{ route('aluminiumAwnings') }}">Aluminium Awnings</a></li>
+                        <li><a class="dropdown-item py-2 px-3 text-dark-emphasis fw-medium" href="{{ route('tensileRoofings') }}">Tensile Roofings</a></li>
+                        <li><a class="dropdown-item py-2 px-3 text-dark-emphasis fw-medium" href="{{ route('polycarbonateRoofings') }}">Polycarbonate Roofings</a></li>
+                        <li><a class="dropdown-item py-2 px-3 text-dark-emphasis fw-medium" href="{{ route('terraceRoofings') }}">Terrace Roofings</a></li>
+                    </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#services">Services</a>
+                    <a class="nav-link {{ Request::routeIs('projects') ? 'active' : '' }}" href="{{ route('projects') }}">Our Projects</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#projects">Projects</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">Contact</a>
+                    <a class="nav-link {{ Request::routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact us</a>
                 </li>
 
             </ul>

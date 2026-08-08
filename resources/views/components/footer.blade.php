@@ -8,7 +8,7 @@
             <div class="col-lg-4">
 
                 <h3 class="footer-logo">
-                    Amudha Decors
+                    ArasuvelRoofings
                 </h3>
 
                 <p class="footer-text">
@@ -38,15 +38,15 @@
 
                 <ul>
 
-                    <li><a href="#">Home</a></li>
+                    <li><a href="{{ route('home') }}">Home</a></li>
 
-                    <li><a href="#about">About</a></li>
+                    <li><a href="{{ route('about') }}">About</a></li>
 
-                    <li><a href="#services">Services</a></li>
+                    <li><a href="{{ route('home') }}#services">Services</a></li>
 
-                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="{{ route('projects') }}">Projects</a></li>
 
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
 
                 </ul>
 
@@ -59,17 +59,17 @@
 
                 <ul>
 
-                    <li><a href="#services">PEB Structures</a></li>
+                    <li><a href="{{ route('pufSandwich') }}">Puf / Sandwich Roofing</a></li>
 
-                    <li><a href="#services">Roofing Solutions</a></li>
+                    <li><a href="{{ route('metalRoofings') }}">Metal Roofings</a></li>
 
-                    <li><a href="#services">ACP Cladding</a></li>
+                    <li><a href="{{ route('aluminiumAwnings') }}">Aluminium Awnings</a></li>
 
-                    <li><a href="#services">Toughened Glass</a></li>
+                    <li><a href="{{ route('tensileRoofings') }}">Tensile Roofings</a></li>
 
-                    <li><a href="#services">Pergolas</a></li>
+                    <li><a href="{{ route('polycarbonateRoofings') }}">Polycarbonate Roofings</a></li>
 
-                    <li><a href="#services">Industrial Construction</a></li>
+                    <li><a href="{{ route('terraceRoofings') }}">Terrace Roofings</a></li>
 
                 </ul>
 
@@ -87,12 +87,12 @@
 
                 <p>
                     <i class="fas fa-phone me-2"></i>
-                    +91 98765 43210
+                    +91 90949 02614
                 </p>
 
                 <p>
                     <i class="fas fa-envelope me-2"></i>
-                    info@company.com
+                    arasuvelroofings@gmail.com
                 </p>
 
             </div>
@@ -106,7 +106,7 @@
             <div class="col-md-6">
 
                 <p class="copyright">
-                    © {{ date('Y') }} Amudha Decors. All Rights Reserved.
+                    © {{ date('Y') }} ArasuvelRoofings. All Rights Reserved.
                 </p>
 
             </div>

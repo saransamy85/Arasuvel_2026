@@ -170,20 +170,73 @@ window.addEventListener("load", function () {
     const serviceItems = document.querySelectorAll(".service-list-item");
     const showcaseImgs = document.querySelectorAll(".service-showcase-img");
 
-    serviceItems.forEach((item) => {
-        item.addEventListener("mouseenter", function () {
+    function activateService(index) {
+        if (!index) return;
+        const item = document.querySelector(`.service-list-item[data-service="${index}"]`);
+        if (item) {
             // Remove active class from all items and images
             serviceItems.forEach((i) => i.classList.remove("active"));
             showcaseImgs.forEach((img) => img.classList.remove("active"));
 
             // Add active class to current item
-            this.classList.add("active");
+            item.classList.add("active");
 
             // Add active class to corresponding image
-            const serviceIndex = this.getAttribute("data-service");
-            const targetImg = document.querySelector(`.service-showcase-img[data-img="${serviceIndex}"]`);
+            const targetImg = document.querySelector(`.service-showcase-img[data-img="${index}"]`);
             if (targetImg) {
                 targetImg.classList.add("active");
+            }
+        }
+    }
+
+    serviceItems.forEach((item) => {
+        item.addEventListener("mouseenter", function () {
+            const serviceIndex = this.getAttribute("data-service");
+            activateService(serviceIndex);
+        });
+    });
+
+    // Check query params on page load
+    const urlParams = new URLSearchParams(window.location.search);
+    const serviceParam = urlParams.get('service');
+    if (serviceParam) {
+        setTimeout(() => {
+            const servicesSection = document.getElementById('services');
+            if (servicesSection) {
+                servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            activateService(serviceParam);
+        }, 500);
+    }
+
+    // Intercept dropdown menu item clicks when already on a page containing services section
+    const dropdownItems = document.querySelectorAll('.dropdown-item[data-service-idx]');
+    dropdownItems.forEach((dropdownItem) => {
+        dropdownItem.addEventListener('click', function(e) {
+            const servicesSection = document.getElementById('services');
+            if (servicesSection) {
+                // We are on a page with the services section, intercept navigation
+                e.preventDefault();
+                const idx = this.getAttribute('data-service-idx');
+                
+                // Smooth scroll
+                servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Activate the selected service item
+                activateService(idx);
+                
+                // Update browser URL query string without reloading the page
+                const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?service=' + idx + '#services';
+                window.history.pushState({ path: newUrl }, '', newUrl);
+
+                // Close mobile menu if open
+                const navbarCollapse = document.getElementById('navbarContent');
+                if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                    const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                    if (bsCollapse) {
+                        bsCollapse.hide();
+                    }
+                }
             }
         });
     });

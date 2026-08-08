@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Media;
+use Illuminate\Database\Eloquent\Model;
+
+class Category extends Model
+{
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'status',
+    ];
+
+    public function media()
+    {
+        return $this->hasMany(Media::class);
+    }
+}

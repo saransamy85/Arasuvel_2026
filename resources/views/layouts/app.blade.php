@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>@yield('title', 'Premium Agency')</title>
+    <meta name="description" content="@yield('meta_description', 'Arasuvel Roofings is a leading name in premium PEB structures, turnkey industrial construction, and advanced architectural glazing across Chennai and Tamil Nadu.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'PEB Structures, Roofing Solutions, ACP Cladding, Toughened Glass, Pergolas, Industrial Construction, Chennai, Tamil Nadu')">
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">

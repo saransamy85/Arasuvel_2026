@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
+@section('title', 'PEB Structures & Turnkey Construction Chennai - Arasuvel Roofings')
+
+@section('meta_description', 'Arasuvel Roofings specializes in premium PEB Structures, color-coated metal roofing sheets, ACP cladding, toughened glass, and pergolas across Chennai.')
+@section('meta_keywords', 'PEB Structures Chennai, industrial roofing contractors Chennai, turnkey construction company Chennai, steel structure fabrication, roofing sheets Chennai')
 
 @section('content')
 
@@ -96,11 +99,11 @@
 
                 <div class="about-images">
 
-                    <img src="{{ asset('assets/images/slider1.jpg') }}" class="about-main img-fluid">
+                    <img src="{{ asset($slider->file_path) }}" class="about-main img-fluid" alt="{{$slider->alt_text}}">
 
                     <div class="experience-box">
 
-                        <h2>20+</h2>
+                        <h2>{{ $slider->title }}</h2>
 
                         <p>Years Experience</p>
 
@@ -225,7 +228,7 @@
                     <div class="service-list-item active" data-service="1">
                         <div class="service-header">
                             <span class="service-idx">01</span>
-                            <span class="service-title">PEB Structures</span>
+                            <span class="service-title">Puf / Sandwich Roofings</span>
                             <div class="service-arrow">
                                 <i class="fas fa-arrow-right"></i>
                             </div>
@@ -240,7 +243,7 @@
                     <div class="service-list-item" data-service="2">
                         <div class="service-header">
                             <span class="service-idx">02</span>
-                            <span class="service-title">Roofing</span>
+                            <span class="service-title">Metal Roofings</span>
                             <div class="service-arrow">
                                 <i class="fas fa-arrow-right"></i>
                             </div>
@@ -255,7 +258,7 @@
                     <div class="service-list-item" data-service="3">
                         <div class="service-header">
                             <span class="service-idx">03</span>
-                            <span class="service-title">ACP Cladding</span>
+                            <span class="service-title">Aluminium Awnings</span>
                             <div class="service-arrow">
                                 <i class="fas fa-arrow-right"></i>
                             </div>
@@ -270,7 +273,7 @@
                     <div class="service-list-item" data-service="4">
                         <div class="service-header">
                             <span class="service-idx">04</span>
-                            <span class="service-title">Toughened Glass</span>
+                            <span class="service-title">Tensile Roofings</span>
                             <div class="service-arrow">
                                 <i class="fas fa-arrow-right"></i>
                             </div>
@@ -285,7 +288,7 @@
                     <div class="service-list-item" data-service="5">
                         <div class="service-header">
                             <span class="service-idx">05</span>
-                            <span class="service-title">Pergolas</span>
+                            <span class="service-title">Polycarbonate Roofings</span>
                             <div class="service-arrow">
                                 <i class="fas fa-arrow-right"></i>
                             </div>
@@ -300,7 +303,7 @@
                     <div class="service-list-item" data-service="6">
                         <div class="service-header">
                             <span class="service-idx">06</span>
-                            <span class="service-title">Industrial Construction</span>
+                            <span class="service-title">Terrace roofings</span>
                             <div class="service-arrow">
                                 <i class="fas fa-arrow-right"></i>
                             </div>
@@ -316,12 +319,9 @@
             <!-- Right Column: Sticky Image Showcase -->
             <div class="col-lg-6 position-relative d-none d-lg-block">
                 <div class="sticky-image-wrapper">
-                    <img src="{{ asset('assets/images/service_peb.png') }}" class="service-showcase-img active" data-img="1" alt="PEB Structures">
-                    <img src="{{ asset('assets/images/slider2.jpg') }}" class="service-showcase-img" data-img="2" alt="Roofing">
-                    <img src="{{ asset('assets/images/slider3.jpg') }}" class="service-showcase-img" data-img="3" alt="ACP Cladding">
-                    <img src="{{ asset('assets/images/slider1.jpg') }}" class="service-showcase-img" data-img="4" alt="Toughened Glass">
-                    <img src="{{ asset('assets/images/slider2.jpg') }}" class="service-showcase-img" data-img="5" alt="Pergolas">
-                    <img src="{{ asset('assets/images/slider3.jpg') }}" class="service-showcase-img" data-img="6" alt="Industrial Construction">
+                    @foreach($slider2 as $sli)
+                    <img src="{{ asset($sli->file_path) }}" class="service-showcase-img {{ $loop->first ? 'active' : '' }}" data-img="{{ $loop->iteration }}" alt="{{ $sli->alt_text }}">
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -394,29 +394,71 @@
 
             <h2>
 
-                Featured Projects
+                Our Recent Works
 
             </h2>
 
         </div>
 
-        <div class="row">
+        <div class="row g-4">
 
-            <div class="col-lg-4">
+            <div class="col-lg-12">
 
-                <img src="{{ asset('assets/images/slider1.jpg') }}" class="img-fluid rounded">
+                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
 
-            </div>
+                    <div class="carousel-inner">
 
-            <div class="col-lg-4">
+                        @foreach($products->chunk(3) as $chunk)
 
-                <img src="{{ asset('assets/images/slider2.jpg') }}" class="img-fluid rounded">
+                        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
 
-            </div>
+                            <div class="row g-4">
 
-            <div class="col-lg-4">
+                                @foreach($chunk as $product)
 
-                <img src="{{ asset('assets/images/slider3.jpg') }}" class="img-fluid rounded">
+                                <div class="col-lg-4">
+
+                                    <div class="card border-0 shadow-sm">
+
+                                        <img src="{{ asset($product->file_path) }}" class="card-img-top img-fluid" alt="{{ $product->alt_text }}" style="height:280px;object-fit:cover;">
+
+                                        <div class="card-body">
+
+                                            <h5>{{ $product->title }}</h5>
+
+                                            <p class="text-muted mb-0">
+                                                {{ Str::limit($product->caption,60) }}
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                @endforeach
+
+                            </div>
+
+                        </div>
+
+                        @endforeach
+
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+
+                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-3"></span>
+
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+
+                        <span class="carousel-control-next-icon bg-dark rounded-circle p-3"></span>
+
+                    </button>
+
+                </div>
 
             </div>
 
@@ -448,7 +490,7 @@
 
             </p>
 
-            <a href="#" class="btn btn-warning btn-lg">
+            <a href="{{ route('contact') }}" class="btn btn-warning btn-lg">
 
                 Contact Us
 
