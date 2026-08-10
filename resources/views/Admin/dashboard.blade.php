@@ -22,7 +22,7 @@
             </div>
 
             <div class="card-footer bg-transparent border-0">
-                <a href="#" class="text-decoration-none">
+                <a href="{{ route('categorylist') }}" class="text-decoration-none">
                     Manage Categories
                     <i class="fa-solid fa-arrow-right ms-1"></i>
                 </a>
@@ -45,7 +45,7 @@
             </div>
 
             <div class="card-footer bg-transparent border-0">
-                <a href="#" class="text-decoration-none">
+                <a href="{{ route('medialist') }}" class="text-decoration-none">
                     Manage Media
                     <i class="fa-solid fa-arrow-right ms-1"></i>
                 </a>
@@ -77,6 +77,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
 
                     </thead>
@@ -92,6 +93,20 @@
                                 @else
                                 <span class="badge bg-danger">Inactive</span>
                                 @endif
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <a href="{{ route('editcategory', $category->id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <form action="{{ route('deletecategory', $category->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -139,9 +154,23 @@
                                     {{ $media->category->name ?? 'No Category' }}
                                 </small>
 
-                                <small class="text-secondary">
-                                    {{ $media->created_at->format('d M Y') }}
-                                </small>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <small class="text-secondary">
+                                        {{ $media->created_at->format('d M Y') }}
+                                    </small>
+                                    <div class="d-flex gap-1">
+                                        <a href="{{ route('editmedia', $media->id) }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </a>
+                                        <form action="{{ route('deletemedia', $media->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
 
                             </div>
 

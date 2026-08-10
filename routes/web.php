@@ -28,6 +28,14 @@ Route::get('/logout', [DashboardController::class, 'logout'])->name('logout');
 
 Route::get('categories', [DashboardController::class, 'categoriespage'])->name('categories');
 Route::post('createcategory', [DashboardController::class, 'createcategory'])->name('createcategory');
+Route::get('categorylist', [DashboardController::class, 'categorylist'])->name('categorylist');
+Route::get('editcategory/{id}', [DashboardController::class, 'editcategory'])->name('editcategory');
+Route::put('updatecategory/{id}', [DashboardController::class, 'updatecategory'])->name('updatecategory');
+Route::delete('deletecategory/{id}', [DashboardController::class, 'deletecategory'])->name('deletecategory');
 
+Route::get('/medialist', [DashboardController::class, 'medialist'])->name('medialist');
 Route::get('/mediapage', [DashboardController::class, 'mediapage'])->name('mediapage');
 Route::post('createimage', [DashboardController::class, 'createimage'])->name('createimage');
+Route::get('editmedia/{id}', [DashboardController::class, 'editmedia'])->name('editmedia');
+Route::put('updatemedia/{id}', [DashboardController::class, 'updatemedia'])->name('updatemedia');
+Route::delete('deletemedia/{id}', [DashboardController::class, 'deletemedia'])->name('deletemedia');

@@ -319,8 +319,8 @@
             <!-- Right Column: Sticky Image Showcase -->
             <div class="col-lg-6 position-relative d-none d-lg-block">
                 <div class="sticky-image-wrapper">
-                    @foreach($slider2 as $sli)
-                    <img src="{{ asset($sli->file_path) }}" class="service-showcase-img {{ $loop->first ? 'active' : '' }}" data-img="{{ $loop->iteration }}" alt="{{ $sli->alt_text }}">
+                    @foreach($serviceImages as $img)
+                    <img src="{{ str_starts_with($img->file_path, 'http') ? $img->file_path : asset($img->file_path) }}" class="service-showcase-img {{ $loop->first ? 'active' : '' }}" data-img="{{ $loop->iteration }}" alt="{{ $img->alt_text }}">
                     @endforeach
                 </div>
             </div>

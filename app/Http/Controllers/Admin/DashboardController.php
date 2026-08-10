@@ -99,7 +99,49 @@ class DashboardController extends Controller
         return redirect()->route('categories');
     }
 
+    public function categorylist()
+    {
+        $categoryList = Category::latest()->paginate(10);
+        return view('Admin.categorylist', compact('categoryList'));
+    }
+
+    public function editcategory($id)
+    {
+        $category = Category::findOrFail($id);
+        return view('Admin.categoryedit', compact('category'));
+    }
+
+    public function updatecategory(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required',
+            'slug' => 'required',
+            'description' => 'required',
+            'status' => 'required',
+        ]);
+
+        $category->update($request->all());
+
+        return redirect()->route('categorylist')->with('success', 'Category updated successfully.');
+    }
+
+    public function deletecategory($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->back()->with('success', 'Category deleted successfully.');
+    }
+
     // Mediapage functions//
+    public function medialist()
+    {
+        $mediaList = Media::with('category')->latest()->paginate(10);
+        return view('Admin.medialist', compact('mediaList'));
+    }
+
     public function mediapage()
     {
         $categories = Category::all();
@@ -168,6 +210,95 @@ class DashboardController extends Controller
             ->route('mediapage')
             ->with('success', 'Image uploaded successfully.');
     }
+
+    public function editmedia($id)
+    {
+        $media = Media::findOrFail($id);
+        $categories = Category::all();
+        return view('Admin.mediaedit', compact('media', 'categories'));
+    }
+
+    public function updatemedia(Request $request, $id)
+    {
+        $media = Media::findOrFail($id);
+
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'title' => 'required|max:255',
+            'alt_text' => 'required|max:255',
+            'caption' => 'nullable|max:255',
+            'focus_keyword' => 'nullable|max:255',
+            'description' => 'nullable',
+            'status' => 'required',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+
+            // Get file details BEFORE moving
+            $originalName = $image->getClientOriginalName();
+            $extension = $image->getClientOriginalExtension();
+            $mimeType = $image->getMimeType();
+            $fileSize = $image->getSize();
+
+            $filename = time() . '_' . Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) . '.' . $extension;
+
+            // Create folder if it doesn't exist
+            $destination = public_path('images/media');
+
+            if (!file_exists($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            // Move image
+            $image->move($destination, $filename);
+
+            // Get image dimensions AFTER moving
+            list($width, $height) = getimagesize($destination . '/' . $filename);
+
+            // Optional: delete old image file if needed
+            // if (file_exists(public_path($media->file_path))) {
+            //     unlink(public_path($media->file_path));
+            // }
+
+            $media->file_name = $filename;
+            $media->file_path = 'images/media/' . $filename;
+            $media->file_type = $mimeType;
+            $media->extension = $extension;
+            $media->file_size = $fileSize;
+            $media->width = $width;
+            $media->height = $height;
+        }
+
+        $media->category_id = $request->category_id;
+        $media->title = $request->title;
+        $media->alt_text = $request->alt_text;
+        $media->caption = $request->caption;
+        $media->description = $request->description;
+        $media->focus_keyword = $request->focus_keyword;
+        $media->status = $request->status;
+
+        $media->save();
+
+        return redirect()
+            ->route('dashboard')
+            ->with('success', 'Media updated successfully.');
+    }
+
+    public function deletemedia($id)
+    {
+        $media = Media::findOrFail($id);
+
+        if (file_exists(public_path($media->file_path))) {
+            unlink(public_path($media->file_path));
+        }
+
+        $media->delete();
+
+        return redirect()->back()->with('success', 'Media deleted successfully.');
+    }
+
 
     public function feedback(Request $request)
     {

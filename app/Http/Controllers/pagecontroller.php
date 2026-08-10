@@ -13,9 +13,27 @@ class pagecontroller extends Controller
     public function home()
     {
         $slider = Media::where('status', 1)->latest()->first();
-        $slider2 = Media::all();
+        
+        // Define the categories for the services section in order
+        $slugs = ['puf', 'metal', 'aluminium', 'tensile', 'polycarbonate', 'terrace'];
+        $serviceImages = collect();
+        
+        foreach ($slugs as $slug) {
+            $category = Category::where('slug', 'like', "%{$slug}%")->first();
+            if ($category) {
+                $media = Media::where('category_id', $category->id)->where('status', 1)->latest()->first();
+                if ($media) {
+                    $serviceImages->push($media);
+                } else {
+                    $serviceImages->push((object)['file_path' => 'https://placehold.co/800x600?text=' . urlencode($category->name), 'alt_text' => $category->name]);
+                }
+            } else {
+                 $serviceImages->push((object)['file_path' => 'https://placehold.co/800x600?text=Coming+Soon', 'alt_text' => 'Coming Soon']);
+            }
+        }
+
         $products = Media::where('status', 1)->latest()->take(9)->get();
-        return view('pages.home', compact('slider', 'slider2', 'products'));
+        return view('pages.home', compact('slider', 'serviceImages', 'products'));
     }
 
     public function about()
